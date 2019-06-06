@@ -1,34 +1,47 @@
 module NumberOperations
 
+using CellwiseValues
+
+export apply
+import Base: iterate
+import Base: length
+import Base: size
+import Base: getindex
+import Base: IndexStyle
+
+function apply(k::NumberKernel,v::Vararg{<:CellValue})
+  CellNumberFromKernel(k,v...)
+end
 
 struct CellNumberFromKernel{T,K,V} <: IterCellNumber{T}
   kernel::K
   cellvalues::V
 end
 
-function CellNumberFromKernel(
-  k::NumberKernel{N},v::Vararg{<:CellValue,N}) where N
+function CellNumberFromKernel(k::NumberKernel,v::Vararg{<:CellValue})
   _checks(v)
   T = _compute_type(k,v)
-  @assert T <: NumberLike
-  V = typeof(v)
   K = typeof(k)
-  CellNumberFromKernel{T,V,K}(v,k)
+  V = typeof(v)
+  CellNumberFromKernel{T,K,V}(k,v)
 end
 
 function _checks(v)
   @assert length(v) > 0
-  v1, _ = v
+  v1, = v
   l = length(v1)
   @assert all( ( length(vi) == l for vi in v ) )
 end
 
 function _compute_type(k,v)
-  compute_type(k,[ typeof(vi) for vi in v ]...)
+  t = [ eltype(vi) for vi in v ]
+  T = compute_type(k,t...)
+  @assert T <: NumberLike
+  T
 end
 
 function length(self::CellNumberFromKernel)
-  vi, _ = self.cellvalues
+  vi, = self.cellvalues
   length(vi)
 end
 
@@ -44,14 +57,12 @@ end
   _iterate(self,znext,zipped)
 end
 
-@inline function _iterate(
-  self::CellNumberFromUnaryKernel,znext,zipped)
+@inline function _iterate(self::CellNumberFromKernel,znext,zipped)
   if znext === nothing; return nothing end
   a, zstate = znext
   r = compute_value(self.kernel,a...)
   state = (zipped,zstate)
   (r, state)
 end
-
 
 end # module NumberOperations

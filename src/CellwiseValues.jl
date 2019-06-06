@@ -2,6 +2,11 @@ module CellwiseValues
 
 using Reexport
 
+# To be ported to TensorValues
+using TensorValues
+import Base: sum
+sum(a::MultiValue) = sum(a.array)
+
 include("Helpers.jl")
 @reexport using CellwiseValues.Helpers
 
