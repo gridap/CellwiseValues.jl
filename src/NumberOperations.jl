@@ -13,7 +13,17 @@ function apply(k::NumberKernel,v::Vararg{<:CellValue})
   CellNumberFromKernel(k,v...)
 end
 
+function apply(k::NumberKernel,v::Vararg{<:IndexCellValue})
+  IndexCellNumberFromKernel(k,v...)
+end
+
 function apply(f::Function,v::Vararg{<:CellValue})
+  t = _eltypes(v)
+  T = Base._return_type(f,t)
+  _apply(T,f,v)
+end
+
+function apply(f::Function,v::Vararg{<:IndexCellValue})
   t = _eltypes(v)
   T = Base._return_type(f,t)
   _apply(T,f,v)
@@ -59,7 +69,6 @@ function _compute_type(k,v)
   T
 end
 
-
 function length(self::CellNumberFromKernel)
   vi, = self.cellvalues
   length(vi)
@@ -84,5 +93,38 @@ end
   state = (zipped,zstate)
   (r, state)
 end
+
+struct IndexCellNumberFromKernel{T,K,V} <: IndexCellNumber{T,1}
+  kernel::K
+  cellvalues::V
+end
+
+function IndexCellNumberFromKernel(k::NumberKernel,v::Vararg{<:IndexCellValue})
+  _checks(v)
+  T = _compute_type(k,v)
+  K = typeof(k)
+  V = typeof(v)
+  IndexCellNumberFromKernel{T,K,V}(k,v)
+end
+
+function length(self::IndexCellNumberFromKernel)
+  vi, = self.cellvalues
+  length(vi)
+end
+
+size(self::IndexCellNumberFromKernel) = (length(self),)
+
+function getindex(self::IndexCellNumberFromKernel,i::Integer)
+  vals = _getvalues(i,self.cellvalues...)
+  compute_value(self.kernel,vals...)
+end
+
+# TODO use a generated function?
+_getvalues(i,v1) = (v1[i],)
+_getvalues(i,v1,v2) = (v1[i],v2[i])
+_getvalues(i,v1,v2,v3) = (v1[i],v2[i],v3[i])
+_getvalues(i,v1,v2,v3,v4) = (v1[i],v2[i],v3[i],v4[i])
+_getvalues(i,v1,v2,v3,v4,v5) = (v1[i],v2[i],v3[i],v4[i],v5[i])
+_getvalues(i,v1,v2,v3,v4,v5,v6) = (v1[i],v2[i],v3[i],v4[i],v5[i],v6[i])
 
 end # module NumberOperations

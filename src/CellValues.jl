@@ -36,7 +36,7 @@ eltype(::Type{C}) where C <: IterCellValue{T} where T = T
 
 abstract type IndexCellValue{T,N} <: AbstractArray{T,N} end
 
-function getindex(::IndexCellValue{T,N}, ::Vararg{Int,N})::T where {T,N}
+function getindex(::IndexCellValue{T,N}, ::Vararg{<:Integer,N})::T where {T,N}
   @abstractmethod
 end
 

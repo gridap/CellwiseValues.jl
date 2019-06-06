@@ -39,7 +39,7 @@ include("Gallery.jl")
 include("Kernels.jl")
 @reexport using CellwiseValues.Kernels
 
-#include("NumberOperations.jl")
-#@reexport using CellwiseValues.NumberOperations
+include("NumberOperations.jl")
+@reexport using CellwiseValues.NumberOperations
 
 end # module
