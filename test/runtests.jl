@@ -7,10 +7,14 @@ include("CellValuesMocks.jl")
 
 include("MapsMocks.jl")
 
-@testset "CellValuesMocks" begin include("CellValuesMocksTests.jl") end
+@time @testset "CellValuesMocks" begin include("CellValuesMocksTests.jl") end
 
-@testset "MapsMocks" begin include("MapsMocksTests.jl") end
+@time @testset "MapsMocks" begin include("MapsMocksTests.jl") end
 
-@testset "Gallery" begin include("GalleryTests.jl") end
+@time @testset "Gallery" begin include("GalleryTests.jl") end
+
+@time @testset "Kernels" begin include("KernelsTests.jl") end
+
+#@testset "NumberOperations" begin include("NumberOperationsTests.jl") end
 
 end # module CellwiseValuesTests
