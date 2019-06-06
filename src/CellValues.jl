@@ -63,7 +63,7 @@ function test_iter_cell_value(icv::CellValue{T},a::AbstractArray{T}) where T
   i = 0
   for v in icv
     i += 1
-    @assert v ≈ a[i]
+    @assert _eq(v,a[i])
   end
 
   @test i == length(a)
@@ -73,6 +73,10 @@ function test_iter_cell_value(icv::CellValue{T},a::AbstractArray{T}) where T
   end
 
 end
+
+_eq(a,b) = a == b
+
+_eq(a::Real,b::Real) = a ≈ b
 
 function test_index_cell_value(icv::IndexCellValue{T},a::AbstractArray{T}) where T
 

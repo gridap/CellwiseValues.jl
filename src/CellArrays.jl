@@ -14,6 +14,9 @@ export IndexCellArray
 export IndexCellMatrix
 export IndexCellVector
 
+export test_iter_cell_array
+export test_index_cell_array
+
 import Base: collect
 
 # Iterable cell Arrays
@@ -41,6 +44,20 @@ const CellVector{T} = CellArray{T,1}
 const CellMatrix{T} = CellArray{T,2}
 
 collect(a::CellArray) = [ copy(ai) for ai in a ]
+
+# Testers
+
+function test_iter_cell_array(
+  icv::CellArray{T,N},
+  a::AbstractArray{<:AbstractArray{T,N}}) where {T,N}
+  test_iter_cell_value(icv,a)
+end
+
+function test_index_cell_array(
+  icv::IndexCellArray{T,N},
+  a::AbstractArray{<:AbstractArray{T,N}}) where {T,N}
+  test_index_cell_value(icv,a)
+end
 
 end # module CellArrays
 

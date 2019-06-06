@@ -9,6 +9,9 @@ export CellNumber
 export IterCellNumber
 export IndexCellNumber
 
+export test_index_cell_number
+export test_iter_cell_number
+
 const NumberLike = Union{Number,SArray}
 
 # Iterable cell Numbers
@@ -22,5 +25,15 @@ const IndexCellNumber{A<:NumberLike,D} = IndexCellValue{A,D}
 # Cell Numbers
 
 const CellNumber{A} = Union{IterCellNumber{A},IndexCellNumber{A}}
+
+# Testers
+
+function test_iter_cell_number(icv::CellNumber, a::AbstractArray{<:NumberLike})
+  test_iter_cell_value(icv,a)
+end
+
+function test_index_cell_number(icv::IndexCellNumber, a::AbstractArray{<:NumberLike})
+  test_index_cell_value(icv,a)
+end
 
 end # module CellNumbers

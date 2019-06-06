@@ -26,4 +26,8 @@ include("CellMaps.jl")
 
 @reexport using CellwiseValues.CellMaps
 
+include("Gallery.jl")
+
+@reexport using CellwiseValues.Gallery
+
 end # module

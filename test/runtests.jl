@@ -7,4 +7,6 @@ include("CellValuesMocks.jl")
 
 @testset "CellValuesMocks" begin include("CellValuesMocksTests.jl") end
 
+@testset "Gallery" begin include("GalleryTests.jl") end
+
 end # module CellwiseValuesTests
