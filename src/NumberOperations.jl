@@ -13,6 +13,25 @@ function apply(k::NumberKernel,v::Vararg{<:CellValue})
   CellNumberFromKernel(k,v...)
 end
 
+function apply(f::Function,v::Vararg{<:CellValue})
+  t = _eltypes(v)
+  T = Base._return_type(f,t)
+  _apply(T,f,v)
+end
+
+function _apply(T,f,v)
+  @notimplemented
+end
+
+function _apply(T::Type{<:NumberLike},f,v)
+  k = NumberKernelFromFunction(f)
+  apply(k,v...)
+end
+
+function _eltypes(v)
+  tuple([ eltype(vi) for vi in v ]...)
+end
+
 struct CellNumberFromKernel{T,K,V} <: IterCellNumber{T}
   kernel::K
   cellvalues::V
@@ -34,11 +53,12 @@ function _checks(v)
 end
 
 function _compute_type(k,v)
-  t = [ eltype(vi) for vi in v ]
+  t = _eltypes(v)
   T = compute_type(k,t...)
   @assert T <: NumberLike
   T
 end
+
 
 function length(self::CellNumberFromKernel)
   vi, = self.cellvalues
