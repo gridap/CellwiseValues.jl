@@ -1,5 +1,6 @@
 module CellValues
 
+using Test
 using CellwiseValues
 
 export CellValue
@@ -13,6 +14,9 @@ import Base: size
 import Base: getindex
 import Base: IndexStyle
 import Base: show
+
+export test_iter_cell_value
+export test_index_cell_value
 
 abstract type IterCellValue{T} end
 
@@ -48,6 +52,41 @@ function show(io::IO,self::CellValue)
   for (i, a) in enumerate(self)
     println(io,"$i -> $a")
   end
+end
+
+# Testers
+
+function test_iter_cell_value(icv::CellValue{T},a::AbstractArray{T}) where T
+
+  @test length(icv) == length(a)
+
+  i = 0
+  for v in icv
+    i += 1
+    @assert v ≈ a[i]
+  end
+
+  @test i == length(a)
+
+  for v in icv
+    @assert eltype(icv) == typeof(v)
+  end
+
+end
+
+function test_index_cell_value(icv::IndexCellValue{T},a::AbstractArray{T}) where T
+
+  test_iter_cell_value(icv,a)
+
+  @test size(icv) == size(a)
+
+  for i in eachindex(icv)
+    v = icv[i]
+    @assert v == a[i]
+  end
+
+  @test IndexStyle(icv) == IndexStyle(a)
+
 end
 
 end # module CellValues

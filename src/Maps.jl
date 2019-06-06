@@ -1,11 +1,13 @@
 module Maps
 
+using Test
 using CellwiseValues
 
 export Map
 export evaluate!
 export evaluate
 export return_size
+export test_map
 
 """
 Abstract map that takes an `M`-dim array of `S` values and returns an `N`-dim
@@ -41,6 +43,21 @@ function evaluate(
   v = Array{T,N}(undef, v_size)
   evaluate!(this,points,v)
   return v
+end
+
+# Testers
+
+function test_map(
+  m::Map{S,M,T,N},x::AbstractArray{S,M},y::AbstractArray{T,N}) where {S,M,T,N}
+
+  z = evaluate(m,x)
+
+  @test z ≈ y
+
+  s = return_size(m,size(x))
+
+  @test s == size(y)
+
 end
 
 end # module Maps
