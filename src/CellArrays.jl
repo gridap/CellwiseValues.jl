@@ -14,6 +14,8 @@ export IndexCellArray
 export IndexCellMatrix
 export IndexCellVector
 
+import Base: collect
+
 # Iterable cell Arrays
 
 const IterCellArray{T,N,A<:AbstractArray{T,N}} = IterCellValue{A}
@@ -37,6 +39,8 @@ const CellArray{T,N} = Union{IterCellArray{T,N},IndexCellArray{T,N}}
 const CellVector{T} = CellArray{T,1}
 
 const CellMatrix{T} = CellArray{T,2}
+
+collect(a::CellArray) = [ copy(ai) for ai in a ]
 
 end # module CellArrays
 

@@ -3,8 +3,8 @@ module CellwiseValuesTests
 using CellwiseValues
 using Test
 
-@testset "CellwiseValues.jl" begin
-    # Write your own tests here.
-end
+include("CellValuesMocks.jl")
+
+@testset "CellValuesMocks" begin include("CellValuesMocksTests.jl") end
 
 end # module CellwiseValuesTests
