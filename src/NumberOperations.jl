@@ -17,23 +17,14 @@ function apply(k::NumberKernel,v::Vararg{<:IndexCellValue})
   IndexCellNumberFromKernel(k,v...)
 end
 
-function apply(f::Function,v::Vararg{<:CellValue})
+function apply(f::Function,v::Vararg{<:CellValue};broadcast=false)
+  _apply(f,v,Val(broadcast))
+end
+
+function _apply(f,v,::Val{false})
   t = _eltypes(v)
   T = Base._return_type(f,t)
-  _apply(T,f,v)
-end
-
-function apply(f::Function,v::Vararg{<:IndexCellValue})
-  t = _eltypes(v)
-  T = Base._return_type(f,t)
-  _apply(T,f,v)
-end
-
-function _apply(T,f,v)
-  @notimplemented
-end
-
-function _apply(T::Type{<:NumberLike},f,v)
+  @assert T <: NumberLike
   k = NumberKernelFromFunction(f)
   apply(k,v...)
 end
@@ -120,6 +111,7 @@ function getindex(self::IndexCellNumberFromKernel,i::Integer)
 end
 
 # TODO use a generated function?
+_getvalues(i,v...) = @notimplemented
 _getvalues(i,v1) = (v1[i],)
 _getvalues(i,v1,v2) = (v1[i],v2[i])
 _getvalues(i,v1,v2,v3) = (v1[i],v2[i],v3[i])

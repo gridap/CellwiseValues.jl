@@ -29,4 +29,10 @@ include("Kernels.jl")
 include("NumberOperations.jl")
 @reexport using CellwiseValues.NumberOperations
 
+include("CachedArrays.jl")
+@reexport using CellwiseValues.CachedArrays
+
+include("ArrayOperations.jl")
+@reexport using CellwiseValues.ArrayOperations
+
 end # module

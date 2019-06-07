@@ -63,9 +63,9 @@ function test_array_kernel(
   @test r == o
 end
 
-_size_for_broadcast(a) = size(a)
+@inline _size_for_broadcast(a) = size(a)
 
-_size_for_broadcast(a::NumberLike) = ()
+@inline _size_for_broadcast(a::NumberLike) = ()
 
 # Implementations
 

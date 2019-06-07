@@ -17,4 +17,8 @@ include("MapsMocks.jl")
 
 @time @testset "NumberOperations" begin include("NumberOperationsTests.jl") end
 
+@time @testset "CachedArrays" begin include("CachedArraysTests.jl") end
+
+@time @testset "ArrayOperations" begin include("ArrayOperationsTests.jl") end
+
 end # module CellwiseValuesTests
