@@ -11,6 +11,7 @@ export compute_type
 export compute_value
 export compute_value!
 export compute_size
+export compute_ndim
 export test_number_kernel
 export test_array_kernel
 
@@ -29,6 +30,10 @@ end
 abstract type ArrayKernel end
 
 function compute_type(::ArrayKernel,::Vararg{<:Type})::Type{<:NumberLike}
+  @abstractmethod
+end
+
+function compute_ndim(::ArrayKernel,::Vararg{Int})::Int
   @abstractmethod
 end
 
@@ -58,6 +63,9 @@ function test_array_kernel(
   s = [ _size_for_broadcast(ii) for ii in i ]
   si = compute_size(k,s...)
   @test size(o) == si
+  d = [length(si) for si in s]
+  n = compute_ndim(k,d...)
+  @test n == length(si)
   r = Array{T,N}(undef,si)
   compute_value!(r,k,i...)
   @test r == o
@@ -100,6 +108,14 @@ end
 function compute_value!(
   v::AbstractArray, k::ArrayKernelFromBroadcastedFunction, a::Vararg)
   broadcast!(k.fun,v,a...)
+end
+
+function compute_ndim(::ArrayKernelFromBroadcastedFunction,d::Vararg{Int})
+  n = 0
+  for di in d
+    n = max(n,di)
+  end
+  n
 end
 
 end # module Kernels

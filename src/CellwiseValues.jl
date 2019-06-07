@@ -35,4 +35,7 @@ include("CachedArrays.jl")
 include("ArrayOperations.jl")
 @reexport using CellwiseValues.ArrayOperations
 
+include("MapOperations.jl")
+@reexport using CellwiseValues.MapOperations
+
 end # module

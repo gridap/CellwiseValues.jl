@@ -33,31 +33,37 @@ end
 
 function CellArrayFromKernel(k::ArrayKernel,v::Vararg{<:CellValue})
   _checks(v)
-  T = _compute_type(k,v)
-  N = _compute_N(v)
+  T = _compute_T(k,v)
+  N = _compute_N(k,v)
   K = typeof(k)
   V = typeof(v)
   CellArrayFromKernel{T,N,K,V}(k,v)
 end
 
-function _compute_type(k,v)
+function _compute_T(k,v)
   t = tuple([ _eltype(vi) for vi in v ]...)
   T = compute_type(k,t...)
   @assert T <: NumberLike
   T
 end
 
-function _compute_N(v)
-  n = 0
-  for vi in v
-    n = max(n,_ndims(vi))
-  end
-  n
+function _compute_N(k,v)
+  d = _compute_ndims(v...)
+  compute_ndim(k,d...)
 end
 
-_ndims(v::CellNumber) = 0
+_nd(v::CellNumber) = 0
 
-_ndims(v::CellArray{T,N}) where {T,N} = N
+_nd(v::CellArray{T,N}) where {T,N} = N
+
+# TODO use a generated function here
+_compute_ndims(v...) = @notimplemented
+_compute_ndims(v1) = (_nd(v1),)
+_compute_ndims(v1,v2) = (_nd(v1),_nd(v2))
+_compute_ndims(v1,v2,v3) = (_nd(v1),_nd(v2),_nd(v3))
+_compute_ndims(v1,v2,v3,v4) = (_nd(v1),_nd(v2),_nd(v3),_nd(v4))
+_compute_ndims(v1,v2,v3,v4,v5) = (_nd(v1),_nd(v2),_nd(v3),_nd(v4),_nd(v5))
+_compute_ndims(v1,v2,v3,v4,v5,v6) = (_nd(v1),_nd(v2),_nd(v3),_nd(v4),_nd(v5),_nd(v6))
 
 _eltype(v::CellNumber{T}) where T = T
 
@@ -111,8 +117,8 @@ end
 
 function IndexCellArrayFromKernel(k::ArrayKernel,v::Vararg{<:CellValue})
   _checks(v)
-  T = _compute_type(k,v)
-  N = _compute_N(v)
+  T = _compute_T(k,v)
+  N = _compute_N(k,v)
   K = typeof(k)
   V = typeof(v)
   cache = CachedArray(T,N)

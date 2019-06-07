@@ -17,7 +17,7 @@ function apply(k::NumberKernel,v::Vararg{<:IndexCellValue})
   IndexCellNumberFromKernel(k,v...)
 end
 
-function apply(f::Function,v::Vararg{<:CellValue};broadcast=false)
+function apply(f::Function,v::Vararg;broadcast=false)
   _apply(f,v,Val(broadcast))
 end
 
