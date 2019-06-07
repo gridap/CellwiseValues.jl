@@ -2,6 +2,7 @@ module ArrayOperations
 
 using CellwiseValues
 using CellwiseValues.NumberOperations: _checks
+using CellwiseValues.NumberOperations: _getvalues
 using CellwiseValues.Kernels: _size_for_broadcast
 
 import CellwiseValues: apply
@@ -14,6 +15,10 @@ import CellwiseValues.NumberOperations: _apply
 
 function apply(k::ArrayKernel,v::Vararg{<:CellValue})
   CellArrayFromKernel(k,v...)
+end
+
+function apply(k::ArrayKernel,v::Vararg{<:IndexCellValue})
+  IndexCellArrayFromKernel(k,v...)
 end
 
 function _apply(f,v,::Val{true})
@@ -97,5 +102,38 @@ _compute_sizes(a1,a2,a3) = (_bs(a1),_bs(a2),_bs(a3))
 _compute_sizes(a1,a2,a3,a4) = (_bs(a1),_bs(a2),_bs(a3),_bs(a4))
 _compute_sizes(a1,a2,a3,a4,a5) = (_bs(a1),_bs(a2),_bs(a3),_bs(a4),_bs(a5))
 _compute_sizes(a1,a2,a3,a4,a5,a6) = (_bs(a1),_bs(a2),_bs(a3),_bs(a4),_bs(a5),_bs(a6))
+
+struct IndexCellArrayFromKernel{T,N,K,V} <: IndexCellArray{T,N,CachedArray{T,N,Array{T,N}},1}
+  kernel::K
+  cellvalues::V
+  cache::CachedArray{T,N,Array{T,N}}
+end
+
+function IndexCellArrayFromKernel(k::ArrayKernel,v::Vararg{<:CellValue})
+  _checks(v)
+  T = _compute_type(k,v)
+  N = _compute_N(v)
+  K = typeof(k)
+  V = typeof(v)
+  cache = CachedArray(T,N)
+  IndexCellArrayFromKernel{T,N,K,V}(k,v,cache)
+end
+
+function length(self::IndexCellArrayFromKernel)
+  vi, = self.cellvalues
+  length(vi)
+end
+
+size(self::IndexCellArrayFromKernel) = (length(self),)
+
+function getindex(self::IndexCellArrayFromKernel,i::Integer)
+  a = _getvalues(i,self.cellvalues...)
+  s = _compute_sizes(a...)
+  z = compute_size(self.kernel,s...)
+  v = self.cache
+  setsize!(v,z)
+  compute_value!(v,self.kernel,a...)
+  v
+end
   
 end # module ArrayOperations
