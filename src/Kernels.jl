@@ -4,10 +4,15 @@ using Test
 using CellwiseValues
 
 export NumberKernel
+export ArrayKernel
 export NumberKernelFromFunction
+export ArrayKernelFromBroadcastedFunction
 export compute_type
 export compute_value
+export compute_value!
+export compute_size
 export test_number_kernel
+export test_array_kernel
 
 # Interfaces
 
@@ -21,6 +26,20 @@ function compute_value(::NumberKernel,::Vararg)::NumberLike
   @abstractmethod
 end
 
+abstract type ArrayKernel end
+
+function compute_type(::ArrayKernel,::Vararg{<:Type})::Type{<:NumberLike}
+  @abstractmethod
+end
+
+function compute_size(::ArrayKernel,::Vararg{<:NTuple})::NTuple
+  @abstractmethod
+end
+
+function compute_value!(::AbstractArray,::NumberKernel,::Vararg)
+  @abstractmethod
+end
+
 # Testers
 
 function test_number_kernel(k::NumberKernel,o::T,i::Vararg) where T
@@ -30,6 +49,23 @@ function test_number_kernel(k::NumberKernel,o::T,i::Vararg) where T
   r = compute_value(k,i...)
   @test r == o
 end
+
+function test_array_kernel(
+  k::ArrayKernel,o::AbstractArray{T,N},i::Vararg) where {T,N}
+  t = [ eltype(ii) for ii in i ]
+  S = compute_type(k,t...)
+  @test S == T
+  s = [ _size_for_broadcast(ii) for ii in i ]
+  si = compute_size(k,s...)
+  @test size(o) == si
+  r = Array{T,N}(undef,si)
+  compute_value!(r,k,i...)
+  @test r == o
+end
+
+_size_for_broadcast(a) = size(a)
+
+_size_for_broadcast(a::NumberLike) = ()
 
 # Implementations
 
@@ -46,6 +82,24 @@ end
 
 function compute_value(self::NumberKernelFromFunction,args::Vararg)
   self.fun(args...)
+end
+
+struct ArrayKernelFromBroadcastedFunction{F<:Function} <: ArrayKernel
+  fun::F
+end
+
+function compute_type(
+  self::ArrayKernelFromBroadcastedFunction,etypes::Vararg{<:Type})
+  Base._return_type(self.fun,etypes)
+end
+
+function compute_size(::ArrayKernelFromBroadcastedFunction,s::Vararg{<:NTuple})
+  Base.Broadcast.broadcast_shape(s...)
+end
+
+function compute_value!(
+  v::AbstractArray, k::ArrayKernelFromBroadcastedFunction, a::Vararg)
+  broadcast!(k.fun,v,a...)
 end
 
 end # module Kernels
