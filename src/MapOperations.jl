@@ -1,5 +1,6 @@
 module MapOperations
 
+export setinputs!
 using CellwiseValues
 using CellwiseValues.ArrayOperations: _compute_N, _compute_T
 
@@ -12,7 +13,7 @@ function apply(k::ArrayKernel,m::Map,v::Vararg)
   MapFromKernel(k,m,v...)
 end
 
-struct MapFromKernel{S,M,T,N,K,V,C} <: Map{S,M,T,N}
+mutable struct MapFromKernel{S,M,T,N,K,V,C} <: Map{S,M,T,N}
   kernel::K
   inputs::V
   caches::C
@@ -41,6 +42,10 @@ end
 function return_size(m::MapFromKernel{S,M},s::NTuple{M,Int}) where {S,M}
   z = _return_sizes(s,m.inputs...)
   compute_size(m.kernel,z...)
+end
+
+function setinputs!(m::MapFromKernel,a::Vararg)
+  m.inputs = a
 end
 
 function _create_caches(v)
