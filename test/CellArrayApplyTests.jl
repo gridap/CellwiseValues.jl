@@ -1,4 +1,4 @@
-module ArrayOperationsTests
+module CellArrayApplyTests
 
 using Test
 using CellwiseValues
@@ -65,4 +65,4 @@ for (a,b) in zip(ax,bx)
   test_index_cell_array(w,o)
 end
 
-end # module ArrayOperationsTests
+end # module

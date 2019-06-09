@@ -1,4 +1,4 @@
-module CellMapOperationsTests
+module CellMapApplyTests
 
 using Test
 using CellwiseValues
@@ -39,4 +39,4 @@ ca2 = evaluate(cm,cp)
 
 test_index_cell_array(ca2,rm)
 
-end # module CellMapOperationsTests
+end # module

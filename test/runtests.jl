@@ -15,14 +15,14 @@ include("MapsMocks.jl")
 
 @time @testset "Kernels" begin include("KernelsTests.jl") end
 
-@time @testset "NumberOperations" begin include("NumberOperationsTests.jl") end
+@time @testset "CellNumberApply" begin include("CellNumberApplyTests.jl") end
 
 @time @testset "CachedArrays" begin include("CachedArraysTests.jl") end
 
-@time @testset "ArrayOperations" begin include("ArrayOperationsTests.jl") end
+@time @testset "CellArrayApply" begin include("CellArrayApplyTests.jl") end
 
-@time @testset "MapOperations" begin include("MapOperationsTests.jl") end
+@time @testset "MapApply" begin include("MapApplyTests.jl") end
 
-@time @testset "CellMapOperations" begin include("CellMapOperationsTests.jl") end
+@time @testset "CellMapApply" begin include("CellMapApplyTests.jl") end
 
 end # module CellwiseValuesTests

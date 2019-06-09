@@ -1,4 +1,4 @@
-module NumberOperations
+module CellNumberApply
 
 using CellwiseValues
 
@@ -119,4 +119,4 @@ _getvalues(i,v1,v2,v3,v4) = (v1[i],v2[i],v3[i],v4[i])
 _getvalues(i,v1,v2,v3,v4,v5) = (v1[i],v2[i],v3[i],v4[i],v5[i])
 _getvalues(i,v1,v2,v3,v4,v5,v6) = (v1[i],v2[i],v3[i],v4[i],v5[i],v6[i])
 
-end # module NumberOperations
+end # module CellNumberApply

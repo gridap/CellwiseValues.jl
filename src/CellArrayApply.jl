@@ -1,8 +1,8 @@
-module ArrayOperations
+module CellArrayApply
 
 using CellwiseValues
-using CellwiseValues.NumberOperations: _checks
-using CellwiseValues.NumberOperations: _getvalues
+using CellwiseValues.CellNumberApply: _checks
+using CellwiseValues.CellNumberApply: _getvalues
 using CellwiseValues.Kernels: _size_for_broadcast
 
 import CellwiseValues: apply
@@ -11,7 +11,7 @@ import Base: length
 import Base: size
 import Base: getindex
 import Base: IndexStyle
-import CellwiseValues.NumberOperations: _apply
+import CellwiseValues.CellNumberApply: _apply
 
 function apply(k::ArrayKernel,v::Vararg{<:CellValue})
   CellArrayFromKernel(k,v...)
@@ -142,4 +142,4 @@ function getindex(self::IndexCellArrayFromKernel,i::Integer)
   v
 end
   
-end # module ArrayOperations
+end # module CellArrayApply

@@ -20,4 +20,4 @@ ao = [p[i]*j+a  for j in 1:3, i in 1:length(p)]
 m = TestMap(a,3)
 test_map(m,p,ao)
 
-end # module MapsMocksTests
+end # module

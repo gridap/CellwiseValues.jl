@@ -1,10 +1,10 @@
-module MapOperations
+module MapApply
 
 export setinputs!
 using CellwiseValues
-using CellwiseValues.ArrayOperations: _compute_N, _compute_T
+using CellwiseValues.CellArrayApply: _compute_N, _compute_T
 
-import CellwiseValues.ArrayOperations: _nd, _eltype
+import CellwiseValues.CellArrayApply: _nd, _eltype
 import CellwiseValues: apply
 import CellwiseValues: evaluate!
 import CellwiseValues: return_size
@@ -163,4 +163,4 @@ function _evaluate_inputs!(p,c1,c2,c3,c4,c5,c6,i1,i2,i3,i4,i5,i6)
   _ev!(p,c6,i6)
 end
 
-end # module MapOperations
+end # module MapApply

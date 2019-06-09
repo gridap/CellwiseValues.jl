@@ -37,4 +37,4 @@ end
 
 return_size(this::TestMap, psize::Tuple{Int}) = (this.dim, psize[1])
 
-end # module MapsMocks
+end # module

@@ -29,16 +29,16 @@ include("Gallery.jl")
 include("Kernels.jl")
 @reexport using CellwiseValues.Kernels
 
-include("NumberOperations.jl")
-@reexport using CellwiseValues.NumberOperations
+include("CellNumberApply.jl")
+@reexport using CellwiseValues.CellNumberApply
 
-include("ArrayOperations.jl")
-@reexport using CellwiseValues.ArrayOperations
+include("CellArrayApply.jl")
+@reexport using CellwiseValues.CellArrayApply
 
-include("MapOperations.jl")
-@reexport using CellwiseValues.MapOperations
+include("MapApply.jl")
+@reexport using CellwiseValues.MapApply
 
-include("CellMapOperations.jl")
-@reexport using CellwiseValues.CellMapOperations
+include("CellMapApply.jl")
+@reexport using CellwiseValues.CellMapApply
 
 end # module

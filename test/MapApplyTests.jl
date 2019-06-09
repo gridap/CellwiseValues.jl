@@ -1,4 +1,4 @@
-module MapOperationsTests
+module MapApplyTests
 
 using Test
 using CellwiseValues
@@ -28,4 +28,4 @@ m3 = apply(-,m,p,broadcast=true)
 r3 = r .- p
 test_map(m3,p,r3)
 
-end # module MapOperationsTests
+end # module

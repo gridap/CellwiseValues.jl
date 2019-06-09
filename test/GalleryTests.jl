@@ -25,4 +25,4 @@ v = [ [i,i,i] for i in 1:10 ]
 cv = CellValueFromArray(v)
 test_index_cell_array( cv, v )
 
-end # module GalleryTests
+end # module

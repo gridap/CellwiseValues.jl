@@ -28,4 +28,4 @@ cp = TestIndexCellValue(p,l)
 rm = [ CachedArray(r) for i in 1:l]
 test_index_cell_map_with_index_arg(cm,cp,rm)
 
-end # module CellMapsTests
+end # module

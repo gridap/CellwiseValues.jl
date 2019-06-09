@@ -43,4 +43,4 @@ w = broadcast(+,u,v,0)
 test_array_kernel(k,w,u,v,0)
 
 
-end # module KernelsTests
+end # module

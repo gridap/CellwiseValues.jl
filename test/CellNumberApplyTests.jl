@@ -1,4 +1,4 @@
-module NumberOperationsTests
+module CellNumberApplyTests
 
 using Test
 using CellwiseValues
@@ -55,4 +55,4 @@ for a in [[1,2,3], SVector(1.3,2.0), VectorValue(1.3,2.0)]
   test_index_cell_value(w,o)
 end
 
-end # module NumberOperationsTests
+end # module

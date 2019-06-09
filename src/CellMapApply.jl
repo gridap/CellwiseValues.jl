@@ -1,13 +1,13 @@
-module CellMapOperations
+module CellMapApply
 
 using CellwiseValues
-using CellwiseValues.MapOperations: _compute_S, _compute_M
-using CellwiseValues.MapOperations: MapFromKernel
-using CellwiseValues.ArrayOperations: _compute_N, _compute_T
+using CellwiseValues.MapApply: _compute_S, _compute_M
+using CellwiseValues.MapApply: MapFromKernel
+using CellwiseValues.CellArrayApply: _compute_N, _compute_T
 
 import CellwiseValues: evaluate
-import CellwiseValues.MapOperations: _stype, _m
-import CellwiseValues.ArrayOperations: _nd, _eltype
+import CellwiseValues.MapApply: _stype, _m
+import CellwiseValues.CellArrayApply: _nd, _eltype
 import CellwiseValues: apply
 import Base: iterate
 import Base: length
@@ -114,4 +114,4 @@ _nd(v::Type{<:Map{S,M,T,N}}) where {S,M,T,N} = N
 
 _nd(v::Type{<:AbstractArray{T,N}}) where {T,N} = N
 
-end # module CellMapOperations
+end # module CellMapApply
