@@ -5,6 +5,9 @@ using Reexport
 include("Helpers.jl")
 @reexport using CellwiseValues.Helpers
 
+include("CachedArrays.jl")
+@reexport using CellwiseValues.CachedArrays
+
 include("CellValues.jl")
 @reexport using CellwiseValues.CellValues
 
@@ -28,9 +31,6 @@ include("Kernels.jl")
 
 include("NumberOperations.jl")
 @reexport using CellwiseValues.NumberOperations
-
-include("CachedArrays.jl")
-@reexport using CellwiseValues.CachedArrays
 
 include("ArrayOperations.jl")
 @reexport using CellwiseValues.ArrayOperations

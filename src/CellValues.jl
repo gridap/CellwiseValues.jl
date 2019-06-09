@@ -57,6 +57,10 @@ end
 # Testers
 
 function test_iter_cell_value(icv::CellValue{T},a::AbstractArray{T}) where T
+  _test_iter_cell_value(icv,a)
+end
+
+function _test_iter_cell_value(icv,a)
 
   @test length(icv) == length(a)
 

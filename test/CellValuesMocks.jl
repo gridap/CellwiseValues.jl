@@ -8,6 +8,7 @@ import Base: iterate
 import Base: length
 import Base: size
 import Base: getindex
+import CellwiseValues: evaluate
 
 struct TestIndexCellValue{T} <: IndexCellValue{T,1}
   a::T

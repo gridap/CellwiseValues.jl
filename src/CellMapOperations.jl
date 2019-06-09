@@ -1,20 +1,27 @@
 module CellMapOperations
 
 using CellwiseValues
+using CellwiseValues.MapOperations: _compute_S, _compute_M
+using CellwiseValues.MapOperations: MapFromKernel
+using CellwiseValues.ArrayOperations: _compute_N, _compute_T
 
 import CellwiseValues: evaluate
-import MapOperations: _stype: _m
+import CellwiseValues.MapOperations: _stype, _m
 import CellwiseValues.ArrayOperations: _nd, _eltype
 import CellwiseValues: apply
 import Base: iterate
 import Base: length
+
+function apply(k::ArrayKernel,m::CellMap,v::Vararg{<:CellValue})
+  CellMapFromKernel(k,m,v...)
+end
 
 struct CellMapFromKernel{S,M,T,N,R,K,V} <: IterCellMap{S,M,T,N,R}
   kernel::K
   cellvalues::V
 end
 
-function CellMapFromKernel(k::ArrayKernel,v::Vararg{<:CellValues})
+function CellMapFromKernel(k::ArrayKernel,v::Vararg{<:CellValue})
   S = _compute_S(v)
   M = _compute_M(v)
   T = _compute_T(k,v)
@@ -70,8 +77,8 @@ function _compute_R(k,v)
   T = _compute_T(k,m)
   N = _compute_N(k,m)
   K = typeof(k)
-  V = m
-  C = tuple([ _cache_type(mi) for mi in m]...)
+  V = Tuple{m...}
+  C = Tuple{[ _cache_type(mi) for mi in m]...}
   MapFromKernel{S,M,T,N,K,V,C}
 end
 

@@ -1,7 +1,4 @@
-include("CellValuesMocks.jl")
-include("MapsMocks.jl")
-include("../src/CellMapOperations.jl")
-module CellMapOperationsTests
+module CellMapsTests
 
 using Test
 using CellwiseValues
@@ -24,27 +21,11 @@ r = evaluate(m,p)
 cm = TestIterCellValue(m,l)
 cp = TestIterCellValue(p,l)
 rm = [ CachedArray(r) for i in 1:l]
-
 test_iter_cell_map(cm,cp,rm)
-
-cm2 = apply(-,cm,broadcast=true)
-rm = [ CachedArray(-r) for i in 1:l]
-
-@test length(cm2) == length(cm)
-@test length(cm2) == length(rm)
-
-test_iter_cell_map(cm2,cp,rm)
-
-
 
 cm = TestIndexCellValue(m,l)
 cp = TestIndexCellValue(p,l)
 rm = [ CachedArray(r) for i in 1:l]
-
 test_index_cell_map_with_index_arg(cm,cp,rm)
 
-ca2 = evaluate(cm,cp)
-
-test_index_cell_array(ca2,rm)
-
-end # module CellMapOperationsTests
+end # module CellMapsTests

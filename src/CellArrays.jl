@@ -1,6 +1,7 @@
 module CellArrays
 
 using CellwiseValues
+using CellwiseValues.CellValues: _test_iter_cell_value
 
 export CellArray
 export CellMatrix
@@ -50,7 +51,7 @@ collect(a::CellArray) = [ copy(ai) for ai in a ]
 function test_iter_cell_array(
   icv::CellArray{T,N},
   a::AbstractArray{<:AbstractArray{T,N}}) where {T,N}
-  test_iter_cell_value(icv,a)
+  _test_iter_cell_value(icv,a)
 end
 
 function test_index_cell_array(
