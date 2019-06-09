@@ -96,11 +96,7 @@ _m(v::CellArray) = nothing
 
 _eltype(v::CellMap{S,M,T}) where {S,M,T} = T
 
-_eltype(v::CellArray{T}) where T = T
-
 _nd(v::CellMap{S,M,T,N}) where {S,M,T,N} = N
-
-_nd(v::CellArray{T,N}) where {T,N} = N
 
 _stype(v::Type{<:Map{S}}) where S = S
 

@@ -38,4 +38,7 @@ include("ArrayOperations.jl")
 include("MapOperations.jl")
 @reexport using CellwiseValues.MapOperations
 
+include("CellMapOperations.jl")
+@reexport using CellwiseValues.CellMapOperations
+
 end # module

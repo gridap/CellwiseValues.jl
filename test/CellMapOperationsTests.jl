@@ -1,6 +1,3 @@
-include("CellValuesMocks.jl")
-include("MapsMocks.jl")
-include("../src/CellMapOperations.jl")
 module CellMapOperationsTests
 
 using Test
@@ -30,12 +27,7 @@ test_iter_cell_map(cm,cp,rm)
 cm2 = apply(-,cm,broadcast=true)
 rm = [ CachedArray(-r) for i in 1:l]
 
-@test length(cm2) == length(cm)
-@test length(cm2) == length(rm)
-
 test_iter_cell_map(cm2,cp,rm)
-
-
 
 cm = TestIndexCellValue(m,l)
 cp = TestIndexCellValue(p,l)

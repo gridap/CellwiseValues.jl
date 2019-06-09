@@ -127,6 +127,7 @@ function test_iter_cell_map(
   for (mi,ai,bi) in zip(m,a,b)
     @assert isa(mi,Map{S,M,T,N})
     @assert evaluate(mi,ai) ≈ bi
+    @assert typeof(mi) == eltype(m)
   end
 
 end
@@ -147,6 +148,7 @@ function test_index_cell_map(
     bi = b[i]
     @assert isa(mi,Map{S,M,T,N})
     @assert evaluate(mi,ai) ≈ bi
+    @assert typeof(mi) == eltype(m)
   end
 
 end
@@ -177,6 +179,7 @@ function test_index_cell_map_with_index_arg(
     bi = b[i]
     @assert isa(mi,Map{S,M,T,N})
     @assert evaluate(mi,ai) ≈ bi
+    @assert typeof(mi) == eltype(m)
   end
 
 end
